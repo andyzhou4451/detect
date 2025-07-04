@@ -10,7 +10,7 @@ import detectX3
 
 IMG_DIR = 'img'
 OUT_DIR = 'img_out'
-TXT_DIR = 'txt_out'
+TXT_DIR = os.path.join('样例', 'txt_out')
 
 class App(tk.Tk):
     def __init__(self):
@@ -71,10 +71,18 @@ class App(tk.Tk):
         if not fname:
             return
         self.img_path = fname
+        # try to locate matching coordinate file
+        base = os.path.basename(fname)
+        possible_txt = os.path.join(TXT_DIR, f"{os.path.splitext(base)[0]}.txt")
+        if os.path.exists(possible_txt):
+            self.txt_path = possible_txt
+            self.set_status('图像和坐标已加载', 'green')
+        else:
+            self.txt_path = None
+            self.set_status('图像已加载', 'green')
         img = Image.open(fname)
         self.orig_img = ImageTk.PhotoImage(img)
         self.canvas_orig.config(image=self.orig_img)
-        self.set_status('图像已加载', 'green')
 
     def load_coord(self):
         fname = filedialog.askopenfilename(initialdir=TXT_DIR, filetypes=[('TXT','*.txt')])
@@ -100,9 +108,17 @@ class App(tk.Tk):
         self.set_status('分割完成', 'green')
 
     def run_detect(self):
-        if not self.img_path or not self.txt_path:
-            messagebox.showwarning('提示', '请先加载图像和坐标')
+        if not self.img_path:
+            messagebox.showwarning('提示', '请先加载图像')
             return
+        if not self.txt_path:
+            base = os.path.basename(self.img_path)
+            auto_txt = os.path.join(TXT_DIR, f"{os.path.splitext(base)[0]}.txt")
+            if os.path.exists(auto_txt):
+                self.txt_path = auto_txt
+            else:
+                messagebox.showwarning('提示', '未找到对应坐标文件')
+                return
         basename = os.path.basename(self.img_path)
         out_path = os.path.join(OUT_DIR, basename)
         self.set_status('检测中...', 'orange')
