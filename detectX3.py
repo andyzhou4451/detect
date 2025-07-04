@@ -26,10 +26,6 @@ def process_image(img_path, txt_path, out_csv=None):
         Lists of detected longitude and latitude values.
     """
 
-    if not os.path.exists(img_path):
-        raise FileNotFoundError(f"Image not found: {img_path}")
-    if not os.path.exists(txt_path):
-        raise FileNotFoundError(f"Coordinate file not found: {txt_path}")
 
     data = loadtxtmethod(txt_path)
 
@@ -44,9 +40,6 @@ def process_image(img_path, txt_path, out_csv=None):
     CoordinateY = []  # Y coordinate collection
 
     img = cv2.imread(img_path)
-    if img is None:
-        raise FileNotFoundError(f"Unable to read image: {img_path}")
-
     grid_RGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     grid_HSV = cv2.cvtColor(grid_RGB, cv2.COLOR_RGB2HSV)
 
@@ -79,7 +72,10 @@ def process_image(img_path, txt_path, out_csv=None):
     return CoordinateX, CoordinateY
 
 if __name__ == "__main__":
-    path = os.path.join("样例", "img_out")
+
+    path = "img_out/"
+
+
     path2 = os.path.join("样例", "txt_out")
 
     for filename in os.listdir(path):
