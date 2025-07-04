@@ -2,6 +2,7 @@ import os
 import cv2
 import numpy as np
 
+
 INPUT_DIR = 'img'
 OUTPUT_DIR = 'img_out'
 
