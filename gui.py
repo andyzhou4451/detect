@@ -1,5 +1,6 @@
 import os
 import tkinter as tk
+
 from tkinter import filedialog, messagebox
 from PIL import Image, ImageTk, ImageDraw
 import cv2
@@ -10,7 +11,9 @@ import detectX3
 
 IMG_DIR = 'img'
 OUT_DIR = 'img_out'
+
 TXT_DIR = 'txt_out'
+
 
 class App(tk.Tk):
     def __init__(self):
@@ -47,6 +50,7 @@ class App(tk.Tk):
 
     def set_status(self, text):
         self.status.config(text=text)
+
         self.update_idletasks()
 
     def load_image(self):
@@ -55,17 +59,21 @@ class App(tk.Tk):
         if not fname:
             return
         self.img_path = fname
+
         img = Image.open(fname)
         self.orig_img = ImageTk.PhotoImage(img)
         self.canvas_orig.config(image=self.orig_img)
         self.set_status('图像已加载')
+
 
     def load_coord(self):
         fname = filedialog.askopenfilename(initialdir=TXT_DIR, filetypes=[('TXT','*.txt')])
         if not fname:
             return
         self.txt_path = fname
+
         self.set_status('坐标已加载')
+
 
     def run_predict(self):
         if not self.img_path:
@@ -73,6 +81,7 @@ class App(tk.Tk):
             return
         basename = os.path.basename(self.img_path)
         out_path = os.path.join(OUT_DIR, basename)
+
         predict.process_image(self.img_path, out_path)
         img = Image.open(out_path)
         self.pred_img = ImageTk.PhotoImage(img)
@@ -86,6 +95,7 @@ class App(tk.Tk):
         basename = os.path.basename(self.img_path)
         out_path = os.path.join(OUT_DIR, basename)
         coords_x, coords_y = detectX3.process_image(out_path, self.txt_path)
+
         img = Image.open(out_path)
         draw = ImageDraw.Draw(img)
         data = detectX3.loadtxtmethod(self.txt_path)
@@ -97,7 +107,9 @@ class App(tk.Tk):
         draw.text((w-150,h-20), f"{b:.4f},{a:.4f}", fill='white')
         self.det_img = ImageTk.PhotoImage(img)
         self.canvas_res.config(image=self.det_img)
+
         self.set_status('检测完成')
+
 
 if __name__ == '__main__':
     app = App()

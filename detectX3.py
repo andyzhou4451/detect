@@ -72,7 +72,7 @@ def process_image(img_path, txt_path, out_csv=None):
 
 if __name__ == "__main__":
     path = "img_out/"
-    path2 = "txt_out/"
+    path2 = os.path.join("样例", "txt_out")
 
     for filename in os.listdir(path):
         if not filename.lower().endswith((".jpg", ".png", ".jpeg", ".bmp", ".tif")):
