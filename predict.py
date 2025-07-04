@@ -2,8 +2,9 @@ import os
 import cv2
 import numpy as np
 
-INPUT_DIR = os.path.join('样例', 'img')
-OUTPUT_DIR = os.path.join('样例', 'img_out')
+
+INPUT_DIR = 'img'
+OUTPUT_DIR = 'img_out'
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
