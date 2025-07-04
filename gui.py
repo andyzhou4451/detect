@@ -2,8 +2,6 @@ import os
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
 from PIL import Image, ImageTk, ImageDraw
-import cv2
-import numpy as np
 
 import predict
 import detectX3
@@ -121,6 +119,8 @@ class App(tk.Tk):
                 return
         basename = os.path.basename(self.img_path)
         out_path = os.path.join(OUT_DIR, basename)
+        if not os.path.exists(out_path):
+            predict.process_image(self.img_path, out_path)
         self.set_status('检测中...', 'orange')
         self.progress.start()
         self.update_idletasks()
