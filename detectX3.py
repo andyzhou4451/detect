@@ -26,6 +26,7 @@ def process_image(img_path, txt_path, out_csv=None):
         Lists of detected longitude and latitude values.
     """
 
+
     data = loadtxtmethod(txt_path)
 
     b = float(data[0])
@@ -73,6 +74,7 @@ def process_image(img_path, txt_path, out_csv=None):
 if __name__ == "__main__":
 
     path = "img_out/"
+
 
     path2 = os.path.join("样例", "txt_out")
 

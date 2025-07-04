@@ -1,4 +1,5 @@
 import os
+
 import tkinter as tk
 
 
@@ -8,14 +9,17 @@ import cv2
 import numpy as np
 
 
+
 import predict
 import detectX3
+
 
 
 IMG_DIR = 'img'
 OUT_DIR = 'img_out'
 
 TXT_DIR = 'txt_out'
+
 
 
 
@@ -27,6 +31,7 @@ class App(tk.Tk):
 
         self.img_path = None
         self.txt_path = None
+
 
         self.ctrl_panel = tk.Frame(self, width=200)
         self.ctrl_panel.pack(side='left', fill='y')
@@ -56,6 +61,7 @@ class App(tk.Tk):
         self.status.config(text=text)
 
 
+
         self.update_idletasks()
 
     def load_image(self):
@@ -66,10 +72,12 @@ class App(tk.Tk):
         self.img_path = fname
 
 
+
         img = Image.open(fname)
         self.orig_img = ImageTk.PhotoImage(img)
         self.canvas_orig.config(image=self.orig_img)
         self.set_status('图像已加载')
+
 
 
     def load_coord(self):
@@ -79,7 +87,9 @@ class App(tk.Tk):
         self.txt_path = fname
 
 
+
         self.set_status('坐标已加载')
+
 
 
     def run_predict(self):
@@ -105,6 +115,7 @@ class App(tk.Tk):
 
 
         img = Image.open(out_path)
+
         draw = ImageDraw.Draw(img)
         data = detectX3.loadtxtmethod(self.txt_path)
         b, c, d, a, e, f = data[0], data[1], data[2], data[3], data[4], data[5]
@@ -117,8 +128,8 @@ class App(tk.Tk):
         self.canvas_res.config(image=self.det_img)
 
 
-        self.set_status('检测完成')
 
+        self.set_status('检测完成')
 
 if __name__ == '__main__':
     app = App()

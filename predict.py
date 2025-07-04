@@ -3,8 +3,10 @@ import cv2
 import numpy as np
 
 
+
 INPUT_DIR = 'img'
 OUTPUT_DIR = 'img_out'
+
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
@@ -15,7 +17,9 @@ def process_image(in_path, out_path):
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     edges = cv2.Canny(gray, 100, 200)
     output = np.zeros_like(img)
+
     output[edges > 0] = (0, 255, 0)
+
     cv2.imwrite(out_path, output)
 
 if __name__ == '__main__':
